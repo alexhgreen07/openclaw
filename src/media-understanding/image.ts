@@ -46,7 +46,7 @@ function resolveImageToolMaxTokens(modelMaxTokens: number | undefined, requested
   ) {
     return requestedMaxTokens;
   }
-  return Math.min(requestedMaxTokens, modelMaxTokens);
+  return modelMaxTokens;
 }
 
 function isNativeResponsesReasoningPayload(model: Model): boolean {
@@ -637,7 +637,6 @@ function toImagesDescriptionRequest(params: ImageDescriptionRequest): ImagesDesc
     model: params.model,
     provider: params.provider,
     prompt: params.prompt,
-    maxTokens: params.maxTokens,
     timeoutMs: params.timeoutMs,
     profile: params.profile,
     preferredProfile: params.preferredProfile,

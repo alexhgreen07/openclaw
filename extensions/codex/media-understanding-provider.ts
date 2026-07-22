@@ -51,7 +51,6 @@ export function buildCodexMediaUnderstandingProvider(
           provider: req.provider,
           model: req.model,
           prompt: req.prompt,
-          maxTokens: req.maxTokens,
           timeoutMs: req.timeoutMs,
           profile: req.profile,
           preferredProfile: req.preferredProfile,

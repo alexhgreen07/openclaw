@@ -173,7 +173,6 @@ export const testing = {
   decodeDataUrl,
   coerceImageAssistantText,
   hasImageReasoningOnlyResponse,
-  resolveImageToolMaxTokens,
   resolveImageCompressionPolicy,
   setProviderDepsForTest(overrides?: {
     buildProviderRegistry?: typeof buildProviderRegistry;
@@ -208,17 +207,6 @@ export const testing = {
       overrides?.loadImageWebMediaRuntime ?? loadImageWebMediaRuntime;
   },
 } as const;
-
-function resolveImageToolMaxTokens(modelMaxTokens: number | undefined, requestedMaxTokens = 4096) {
-  if (
-    typeof modelMaxTokens !== "number" ||
-    !Number.isFinite(modelMaxTokens) ||
-    modelMaxTokens <= 0
-  ) {
-    return requestedMaxTokens;
-  }
-  return Math.min(requestedMaxTokens, modelMaxTokens);
-}
 
 /**
  * Resolve the effective image model config for the `image` tool.
@@ -681,7 +669,6 @@ async function runImagePrompt(params: {
           provider,
           model: modelId,
           prompt: params.prompt,
-          maxTokens: resolveImageToolMaxTokens(undefined),
           timeoutMs,
           cfg: providerCfg,
           agentDir: params.agentDir,
@@ -701,7 +688,6 @@ async function runImagePrompt(params: {
           provider,
           model: modelId,
           prompt: params.prompt,
-          maxTokens: resolveImageToolMaxTokens(undefined),
           timeoutMs,
           cfg: providerCfg,
           agentDir: params.agentDir,
@@ -720,7 +706,6 @@ async function runImagePrompt(params: {
           provider,
           model: modelId,
           prompt: `${params.prompt}\n\nDescribe image ${index + 1} of ${params.images.length}.`,
-          maxTokens: resolveImageToolMaxTokens(undefined),
           timeoutMs,
           cfg: providerCfg,
           agentDir: params.agentDir,
